@@ -1,0 +1,86 @@
+/* src/components/menu/MenuCategory/MenuCategory.css */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 30px 0 40px 0;
+  padding: 0 20px;
+}
+
+.filter-buttons button {
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  color: #b00000;
+  border: 2px solid #b00000;
+  padding: 12px 24px;
+  margin: 0;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.filter-buttons button:hover {
+  background: linear-gradient(135deg, #b00000, #d32f2f);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(176, 0, 0, 0.2);
+}
+
+.filter-buttons button.active {
+  background: linear-gradient(135deg, #b00000, #ff4500);
+  color: white;
+  border-color: #ff4500;
+  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.filter-dropdown {
+  margin: 25px auto;
+  max-width: 300px;
+  display: none;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 14px 20px;
+  border: 2px solid #b00000;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  color: #b00000;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23b00000' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 14px;
+  text-align: center;
+  outline: none;
+}
+
+.filter-select:focus {
+  border-color: #ff4500;
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.2);
+}
+
+.filter-select option {
+  padding: 10px;
+  background: white;
+  color: #333;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .filter-buttons {
+    display: none;
+  }
+  
+  .filter-dropdown {
+    display: block;
+  }
+}

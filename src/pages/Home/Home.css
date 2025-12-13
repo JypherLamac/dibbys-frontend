@@ -1,0 +1,1133 @@
+/* Dibby's Wings Unique Styles - Won't conflict with other files */
+.dibby-home * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dibby-home {
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+:root {
+  --dibby-primary-red: #c8102e;
+  --dibby-dark-red: #a00d25;
+  --dibby-light-red: #f8d7da;
+  --dibby-dark-text: #333;
+  --dibby-light-text: #fff;
+  --dibby-gray-bg: #f9f9f9;
+  --dibby-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dibby-container {
+  width: 100%;
+  max-width: 1800px; /* Increased max-width */
+  margin: 0 auto;
+  padding: 20px 5%;
+}
+
+.dibby-home section {
+  padding: 60px 0;
+}
+
+.dibby-home h1, .dibby-home h2, .dibby-home h3, .dibby-home h4 {
+  margin-bottom: 20px;
+  color: var(--dibby-dark-text);
+}
+
+.dibby-home h1 {
+  font-size: 2.5rem;
+}
+
+.dibby-home h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.dibby-home h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--dibby-primary-red);
+}
+
+.dibby-home p {
+  margin-bottom: 15px;
+}
+
+.dibby-btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: var(--dibby-primary-red);
+  color: var(--dibby-light-text);
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: auto;
+  max-width: 200px;
+}
+
+.dibby-btn:hover {
+  background-color: var(--dibby-dark-red);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific button for Google Maps */
+.dibby-map-btn {
+  width: auto !important;
+  display: inline-block !important;
+}
+
+/* Hero Section */
+.dibby-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  color: var(--dibby-light-text);
+  text-align: center;
+  padding: 0; /* Remove padding */
+  height: 500px; /* Keep your desired height */
+  display: flex; /* Add flexbox */
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  position: relative; /* For potential overlay */
+}
+
+.dibby-hero .dibby-container {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Take full height of hero */
+}
+
+.dibby-hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  color: var(--dibby-light-text);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.dibby-hero p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  line-height: 1.6;
+}
+/* About Section - Text left, Image right, Features below */
+.dibby-about {
+  background: linear-gradient(135deg, 
+    rgba(200, 16, 46, 0.03) 0%, 
+    rgba(255, 87, 34, 0.05) 50%, 
+    rgba(255, 193, 7, 0.02) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.dibby-about:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    #c8102e 0%, 
+    #ff5722 50%, 
+    #ffc107 100%);
+  z-index: 1;
+}
+
+.dibby-about h2 {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 50px;
+  padding-bottom: 15px;
+}
+
+.dibby-about h2:after {
+  width: 100%;
+  left: 0;
+  transform: none;
+  background: linear-gradient(90deg, #c8102e, #ff5722);
+}
+
+/* Main content wrapper */
+.dibby-about-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Text and Image Row */
+.dibby-about-row {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: 0 15px 50px rgba(200, 16, 46, 0.1);
+  margin-bottom: 40px;
+}
+
+/* Left side - Text content */
+.dibby-about-text {
+  flex: 1;
+}
+
+.dibby-about-text p:first-child {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  position: relative;
+  padding-left: 25px;
+}
+
+.dibby-about-text p:first-child:before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -10px;
+  font-size: 3rem;
+  color: var(--dibby-primary-red);
+  font-family: 'Georgia', serif;
+  opacity: 0.3;
+}
+
+.dibby-about-text p:nth-child(2) {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  border-left: 4px solid var(--dibby-primary-red);
+  padding-left: 20px;
+  background: linear-gradient(90deg, 
+    rgba(200, 16, 46, 0.05) 0%, 
+    rgba(200, 16, 46, 0.01) 100%);
+  padding: 15px 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Right side - Image */
+.dibby-about-image {
+  flex: 1;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  border: 8px solid white;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dibby-about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* Fill the container */
+  object-position: center center; /* Focus on the center of the image */
+  display: block;
+  transition: all 0.5s ease;
+}
+
+/* Features Section - BELOW the row */
+.dibby-features-container {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 50px rgba(200, 16, 46, 0.1);
+}
+
+.dibby-features {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.dibby-feature {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  padding: 30px;
+  transition: all 0.3s ease;
+  border-radius: 15px;
+  border: 2px solid transparent;
+}
+
+.dibby-feature:hover {
+  background: linear-gradient(135deg, 
+    rgba(200, 16, 46, 0.05) 0%, 
+    rgba(255, 87, 34, 0.03) 100%);
+  transform: translateY(-10px);
+  border-color: var(--dibby-primary-red);
+  box-shadow: 0 10px 30px rgba(200, 16, 46, 0.1);
+}
+
+.dibby-feature i {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 15px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, 
+    rgba(200, 16, 46, 0.1) 0%, 
+    rgba(255, 87, 34, 0.05) 100%);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.dibby-feature:hover i {
+  background: linear-gradient(135deg, 
+    var(--dibby-primary-red) 0%, 
+    var(--dibby-dark-red) 100%);
+  color: white;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 10px 20px rgba(200, 16, 46, 0.2);
+}
+
+.dibby-feature h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #222;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.dibby-feature h3:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: var(--dibby-primary-red);
+  transition: width 0.3s ease;
+}
+
+.dibby-feature:hover h3:after {
+  width: 60px;
+}
+
+.dibby-feature p {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* Call to Action Button in About Section */
+.dibby-about .dibby-btn {
+  background: linear-gradient(135deg, 
+    var(--dibby-primary-red) 0%, 
+    var(--dibby-dark-red) 100%);
+  padding: 15px 35px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin-top: 20px;
+  box-shadow: 0 5px 15px rgba(200, 16, 46, 0.3);
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.dibby-about .dibby-btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.5s ease;
+  z-index: -1;
+}
+
+.dibby-about .dibby-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(200, 16, 46, 0.4);
+}
+
+.dibby-about .dibby-btn:hover:before {
+  left: 100%;
+}
+
+/* Decorative Elements */
+.dibby-about:after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, 
+    rgba(200, 16, 46, 0.1) 0%, 
+    transparent 70%);
+  top: -100px;
+  right: -100px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Featured Wings Section */
+.dibby-wings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Fixed from 0px to 300px */
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.dibby-wing-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--dibby-card-shadow);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dibby-wing-card:hover {
+  transform: translateY(-10px);
+}
+
+.dibby-wing-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s;
+}
+
+.dibby-wing-card:hover .dibby-wing-image {
+  transform: scale(1.05);
+}
+
+.dibby-wing-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.dibby-wing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.dibby-wing-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dibby-wing-price {
+  color: var(--dibby-primary-red);
+  font-weight: bold;
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+
+.dibby-popular-badge {
+  background-color: var(--dibby-primary-red);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+.dibby-wing-description {
+  color: #666;
+  text-align: left;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-start;
+  min-height: 60px;
+}
+
+.dibby-wing-actions {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.dibby-view-menu {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* How We Serve You Section */
+.dibby-service {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 80px 0;
+}
+
+.dibby-service-process {
+  max-width: 900px;
+  margin: 0 auto 60px;
+}
+
+.dibby-service-step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.dibby-step-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 30px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dibby-step-number {
+  width: 40px;
+  height: 40px;
+  background: var(--dibby-primary-red);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(200, 16, 46, 0.3);
+}
+
+.dibby-step-icon {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border: 3px solid var(--dibby-primary-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: var(--dibby-primary-red);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dibby-service-step:hover .dibby-step-icon {
+  background: var(--dibby-primary-red);
+  color: white;
+  transform: scale(1.1);
+}
+
+.dibby-step-connector {
+  width: 3px;
+  height: 60px;
+  background: var(--dibby-primary-red);
+  opacity: 0.3;
+  margin-top: 20px;
+}
+
+.dibby-service-step:last-child .dibby-step-connector {
+  display: none;
+}
+
+.dibby-step-content {
+  flex: 1;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dibby-service-step:hover .dibby-step-content {
+  transform: translateX(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.dibby-step-content h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.dibby-step-content h3::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--dibby-primary-red);
+  margin-right: 10px;
+  border-radius: 2px;
+}
+
+.dibby-step-content p {
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.dibby-step-features {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.dibby-step-features li {
+  display: flex;
+  align-items: center;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.dibby-step-features i {
+  color: #28a745;
+  margin-right: 8px;
+  font-size: 0.8rem;
+}
+
+/* Service Commitment */
+.dibby-service-commitment {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.dibby-commitment-card {
+  background: white;
+  padding: 40px 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--dibby-primary-red);
+}
+
+.dibby-commitment-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.dibby-commitment-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--dibby-primary-red) 0%, var(--dibby-dark-red) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.dibby-commitment-card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.dibby-commitment-card p {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Testimonials Section */
+.dibby-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.dibby-testimonial-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--dibby-card-shadow);
+  border-left: 4px solid var(--dibby-primary-red);
+  transition: transform 0.3s;
+}
+
+.dibby-testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+.dibby-testimonial-text {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.dibby-customer-info {
+  display: flex;
+  align-items: center;
+}
+
+.dibby-customer-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--dibby-primary-red);
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.dibby-customer-details h4 {
+  margin-bottom: 5px;
+}
+
+.dibby-customer-details p {
+  color: #777;
+  margin: 0;
+}
+
+.dibby-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.dibby-stat-item {
+  padding: 20px;
+}
+
+.dibby-stat-item h3 {
+  font-size: 2.5rem;
+  color: var(--dibby-primary-red);
+  margin-bottom: 5px;
+}
+
+.dibby-stat-item p {
+  color: #666;
+}
+
+/* Contact Section */
+.dibby-contact {
+  background-color: var(--dibby-gray-bg);
+}
+
+.dibby-contact-content {
+  display: flex;
+  gap: 40px;
+}
+
+.dibby-contact-info {
+  flex: 1;
+}
+
+.dibby-contact-details {
+  margin-bottom: 30px;
+}
+
+.dibby-contact-item {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.dibby-contact-icon {
+  color: var(--dibby-primary-red);
+  margin-right: 10px;
+  width: 20px;
+  font-size: 1.2rem;
+}
+
+.dibby-map-container {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--dibby-card-shadow);
+  height: 400px;
+}
+
+#dibby-map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Font Awesome Icon Fix - ENSURE THIS IS PRESENT */
+.dibby-home .fa,
+.dibby-home .fas,
+.dibby-home .far,
+.dibby-home .fal,
+.dibby-home .fab,
+.dibby-home .fa-solid,
+.dibby-home .fa-regular,
+.dibby-home .fa-light,
+.dibby-home .fa-thin,
+.dibby-home .fa-duotone,
+.dibby-home .fa-brands {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', sans-serif;
+  font-weight: 900;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+  display: inline-block;
+}
+
+/* Ensure icons show up */
+.dibby-feature i,
+.dibby-step-icon i,
+.dibby-commitment-icon i,
+.dibby-contact-icon i {
+  font-size: inherit !important;
+  color: inherit !important;
+  display: inline-block !important;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet devices (768px - 1024px) */
+@media (max-width: 1024px) {
+  .dibby-hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .dibby-about-row {
+    gap: 40px;
+    padding: 40px;
+  }
+  
+  .dibby-about-image {
+    height: 400px;
+  }
+  
+  .dibby-wings-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .dibby-service-process {
+    max-width: 100%;
+  }
+}
+
+/* Mobile devices (up to 768px) */
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+  .dibby-container {
+    padding: 20px 15px;
+  }
+  
+  .dibby-home section {
+    padding: 0px;
+  }
+  
+  /* Hero Section - Full screen on mobile */
+  .dibby-hero {
+    padding: 0; /* Remove padding */
+    height: 100vh; /* Full viewport height */
+    min-height: 600px; /* Minimum height */
+    display: flex;
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    text-align: center;
+  }
+  
+  .dibby-hero .dibby-container {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 0px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically within container */
+    height: 100%; /* Take full height of parent */
+  }
+  
+  .dibby-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px; /* Limit width for better readability */
+  }
+
+  .dibby-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    width: 100%;
+  }
+  
+  .dibby-hero p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .dibby-home h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+  
+  /* About Section Mobile */
+  .dibby-about-row {
+    flex-direction: column;
+    padding: 30px;
+    gap: 30px;
+  }
+  
+  .dibby-about-image {
+    width: 100%;
+    height: 300px;
+    order: 2;
+  }
+  
+  .dibby-about-text {
+    order: 1;
+  }
+  
+  .dibby-features-container {
+    padding: 30px 20px;
+  }
+  
+  .dibby-features {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .dibby-feature {
+    padding: 25px;
+  }
+  
+  .dibby-feature:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Wings Section Mobile */
+  .dibby-wings-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .dibby-wing-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .dibby-wing-price {
+    margin-top: 10px;
+  }
+  
+  /* Service Section Mobile */
+  .dibby-service {
+    padding: 50px 0;
+  }
+  
+  .dibby-service-step {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .dibby-step-visual {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+  
+  .dibby-step-connector {
+    display: none;
+  }
+  
+  .dibby-step-content {
+    padding: 20px;
+  }
+  
+  .dibby-step-content h3::before {
+    display: none;
+  }
+  
+  .dibby-step-features {
+    grid-template-columns: 1fr;
+  }
+  
+  .dibby-service-commitment {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  /* Testimonials Mobile */
+  .dibby-testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .dibby-testimonial-card {
+    padding: 20px;
+  }
+  
+  /* Stats Mobile */
+  .dibby-stats {
+    flex-direction: column;
+    margin-top: 30px;
+  }
+  
+  .dibby-stat-item {
+    margin-bottom: 20px;
+  }
+  
+  .dibby-stat-item h3 {
+    font-size: 2rem;
+  }
+  
+  /* Contact Section Mobile */
+  .dibby-contact-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .dibby-map-container {
+    height: 300px;
+    order: 2;
+  }
+  
+  .dibby-contact-info {
+    order: 1;
+  }
+  
+  .dibby-btn {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Small Mobile devices (up to 480px) */
+@media (max-width: 480px) {
+  .dibby-hero {
+    min-height: 500px; /* Smaller minimum for very small screens */
+  }
+
+  .dibby-container{
+    padding: 60px 20px;
+  }
+  
+  .dibby-hero h1 {
+    font-size: 2rem; /* Adjust font size for small screens */
+    margin-bottom: 0px;
+  }
+  
+  .dibby-hero p {
+    font-size: 1rem;
+    margin-bottom: 150px;
+  }
+  
+  .dibby-home h2 {
+    font-size: 1.5rem;
+  }
+  
+  .dibby-about-row {
+    padding: 20px;
+  }
+  
+  .dibby-about-text p:first-child {
+    font-size: 1rem;
+  }
+  
+  .dibby-about-text p:nth-child(2) {
+    font-size: 0.95rem;
+  }
+  
+  .dibby-about-image {
+    height: 250px;
+  }
+  
+  .dibby-feature {
+    padding: 20px 15px;
+  }
+  
+  .dibby-feature i {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  
+  .dibby-step-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.4rem;
+  }
+  
+  .dibby-commitment-card {
+    padding: 30px 15px;
+  }
+}
+
+/* For landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .dibby-hero {
+    min-height: 100vh; /* Still full viewport */
+    padding: 40px 0; /* Add some padding for landscape */
+  }
+  
+  .dibby-hero h1 {
+    font-size: 2rem; /* Smaller in landscape */
+  }
+  
+  .dibby-hero p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Large Desktop screens (min-width: 1800px) */
+@media (min-width: 1800px) {
+  .dibby-container {
+    max-width: 2000px;
+  }
+  
+  .dibby-wings-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+}

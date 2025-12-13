@@ -1,0 +1,101 @@
+ 
+.about-page {
+  padding: 2rem 0;
+}
+
+.about-page h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 3rem;
+}
+
+.about-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.about-content h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.about-content p {
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.about-image {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 3rem;
+  text-align: center;
+}
+
+.image-placeholder {
+  font-size: 8rem;
+}
+
+.mission-vision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.mission, .vision {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.mission h3, .vision h3 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.team-section h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.team-member {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.member-avatar {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.team-member h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.team-member p {
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .about-hero,
+  .mission-vision {
+    grid-template-columns: 1fr;
+  }
+}
