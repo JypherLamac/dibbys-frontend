@@ -11,6 +11,7 @@ import Contact from './pages/Contact/Contact';
 import Feedback from './pages/Feedback/Feedback';
 import Cart from './pages/Cart/Cart';
 import Login from './pages/Login/Login';
+import ScrollToTop from './components/common/ScrollToTop';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +26,10 @@ function App() {
           <div className="App">
             <Header />
             <ToastContainer position="top-right" autoClose={3000} />
+
+            {/* Scroll to top on route change */}
+            <ScrollToTop />
+
             <main className="main-content">
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -36,6 +41,7 @@ function App() {
                 <Route path="/cart" element={<Cart />} />
               </Routes>
             </main>
+
             <Footer />
           </div>
         </Router>

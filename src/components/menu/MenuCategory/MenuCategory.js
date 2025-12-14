@@ -1,7 +1,7 @@
 import React from 'react';
 import './MenuCategory.css';
 
-function MenuCategory({ categories, activeCategory, onCategoryClick, isMobile }) {
+function MenuCategory({ categories, activeCategory, onCategoryClick }) {
   // Ensure categories are displayed in correct order
   const sortedCategories = [...categories].sort((a, b) => {
     // Keep "All" first
@@ -46,22 +46,20 @@ function MenuCategory({ categories, activeCategory, onCategoryClick, isMobile })
         ))}
       </div>
 
-      {/* Mobile Filter Dropdown */}
-      {isMobile && (
-        <div className="filter-dropdown">
-          <select 
-            className="filter-select" 
-            value={activeCategory}
-            onChange={(e) => onCategoryClick(e.target.value)}
-          >
-            {sortedCategories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      {/* Mobile Filter Dropdown - ALWAYS RENDERED but hidden on desktop via CSS */}
+      <div className="filter-dropdown">
+        <select 
+          className="filter-select" 
+          value={activeCategory}
+          onChange={(e) => onCategoryClick(e.target.value)}
+        >
+          {sortedCategories.map(category => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
     </>
   );
 }

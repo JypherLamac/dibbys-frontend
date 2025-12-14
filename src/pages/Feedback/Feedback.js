@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Feedback.css';
 
-const API_BASE_URL = 'http://localhost:5001';
+const API_BASE_URL = 'http://localhost:5001/api';
 
-const Feedback = () => {
+const Feedback2 = () => {
   const [reviews, setReviews] = useState([]);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -18,111 +18,25 @@ const Feedback = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stats, setStats] = useState({ 
     recommendPercentage: 100, 
-    totalReviews: 4,
-    averageRating: 5.0 
+    totalReviews: 0,
+    averageRating: 5.0,
+    totalLikes: 0
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  
-  // NEW STATES FOR EMAIL VERIFICATION
   const [verificationStep, setVerificationStep] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [tempReview, setTempReview] = useState(null);
   const [resendTimer, setResendTimer] = useState(0);
+  const [userLikes, setUserLikes] = useState(() => {
+    // Load liked reviews from localStorage
+    const saved = localStorage.getItem('dibbyFeedbackLikes');
+    return saved ? JSON.parse(saved) : {};
+  });
 
-  // Fetch reviews and stats from backend
+  // Save userLikes to localStorage whenever it changes
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      
-      try {
-        // Fetch reviews
-        const reviewsResponse = await fetch(`${API_BASE_URL}/api/feedback`, {
-          signal: AbortSignal.timeout(5000)
-        });
-        
-        if (!reviewsResponse.ok) {
-          throw new Error(`Reviews API failed: ${reviewsResponse.status}`);
-        }
-        
-        const reviewsData = await reviewsResponse.json();
-        
-        if (reviewsData.success) {
-          const formattedReviews = reviewsData.data.map(item => ({
-            id: item.id,
-            name: item.name || `${item.firstName} ${item.lastName}`,
-            date: item.formatted_date || formatDate(item.createdAt),
-            text: item.feedback,
-            recommends: item.recommend === 1 || item.recommend === true,
-            rating: item.rating,
-            orderMethod: item.orderMethod,
-            email: item.email,
-            verified: item.verified || false // Add verified status
-          }));
-          setReviews(formattedReviews);
-        }
-
-        // Fetch stats
-        const statsResponse = await fetch(`${API_BASE_URL}/api/feedback/stats`, {
-          signal: AbortSignal.timeout(5000)
-        });
-        
-        if (!statsResponse.ok) {
-          throw new Error(`Stats API failed: ${statsResponse.status}`);
-        }
-        
-        const statsData = await statsResponse.json();
-        
-        if (statsData.success) {
-          setStats({
-            recommendPercentage: statsData.data.recommendPercentage,
-            totalReviews: statsData.data.totalReviews,
-            averageRating: statsData.data.averageRating
-          });
-        }
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        setError(err.message);
-        
-        // Fallback to sample data
-        const sampleReviews = [
-          {
-            id: 1,
-            name: "Rafael Coronado",
-            date: "September 24 at 3:07 PM",
-            text: "suger setup ng chicken, malsas ang mga flavor at napaka juicy",
-            recommends: true,
-            rating: 5,
-            orderMethod: "dine-in",
-            verified: true
-          },
-          {
-            id: 2,
-            name: "Mark Angelo Medina Compendio",
-            date: "September 25 at 7:54 PM",
-            text: "suger solid and ang bali ng owner!!",
-            recommends: true,
-            rating: 5,
-            orderMethod: "delivery",
-            verified: true
-          }
-        ];
-        setReviews(sampleReviews);
-        
-        const recommendCount = sampleReviews.filter(r => r.recommends).length;
-        setStats({
-          recommendPercentage: Math.round((recommendCount / sampleReviews.length) * 100),
-          totalReviews: sampleReviews.length,
-          averageRating: 5.0
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+    localStorage.setItem('dibbyFeedbackLikes', JSON.stringify(userLikes));
+  }, [userLikes]);
 
   // Timer for resend code
   useEffect(() => {
@@ -135,29 +49,180 @@ const Feedback = () => {
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  const formatDate = (dateString) => {
+  // Load reviews from database when component mounts
+  useEffect(() => {
+    loadReviewsFromDatabase();
+  }, []);
+
+  // Format time ago
+  const formatTimeAgo = (dateString) => {
     try {
-      if (!dateString) return 'Recently';
-      
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) return dateString;
+      if (!dateString) return 'Just now';
       
       const now = new Date();
-      const diffTime = Math.abs(now - date);
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const reviewDate = new Date(dateString);
+      const diffMs = now - reviewDate;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
       
-      if (diffDays === 0) return 'Today';
-      if (diffDays === 1) return 'Yesterday';
+      if (diffMins < 1) return 'Just now';
+      if (diffMins < 60) return `${diffMins} minutes ago`;
+      if (diffHours < 24) return `${diffHours} hours ago`;
       if (diffDays < 7) return `${diffDays} days ago`;
-      if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
       
-      return date.toLocaleDateString('en-US', { 
-        month: 'long', 
-        day: 'numeric',
-        year: 'numeric'
-      });
+      return reviewDate.toLocaleDateString();
     } catch (error) {
-      return dateString || 'Recently';
+      return 'Recently';
+    }
+  };
+
+  const loadReviewsFromDatabase = async () => {
+    setLoading(true);
+    try {
+      // Fetch verified reviews from your backend
+      const response = await fetch(`${API_BASE_URL}/feedback`);
+      const data = await response.json();
+      
+      if (data.success && data.data) {
+        const formattedReviews = data.data.map(item => ({
+          id: item.id,
+          name: item.name || `${item.firstName} ${item.lastName}`,
+          date: formatTimeAgo(item.createdAt),
+          text: item.feedback,
+          recommends: item.recommend === 1 || item.recommend === true,
+          rating: item.rating,
+          orderMethod: item.orderMethod,
+          email: item.email,
+          verified: item.verified || false,
+          createdAt: item.createdAt,
+          likes: item.likes || 0,
+          userLiked: userLikes[item.id] || false
+        }));
+        
+        // Sort by likes (most liked first)
+        formattedReviews.sort((a, b) => {
+          if (b.likes !== a.likes) return b.likes - a.likes;
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        
+        setReviews(formattedReviews);
+        
+        // Update stats
+        const recommendCount = formattedReviews.filter(r => r.recommends).length;
+        const totalRating = formattedReviews.reduce((sum, r) => sum + (parseInt(r.rating) || 0), 0);
+        const totalLikes = formattedReviews.reduce((sum, r) => sum + (r.likes || 0), 0);
+        
+        setStats({
+          recommendPercentage: formattedReviews.length > 0 ? 
+            Math.round((recommendCount / formattedReviews.length) * 100) : 100,
+          totalReviews: formattedReviews.length,
+          averageRating: formattedReviews.length > 0 ? 
+            (totalRating / formattedReviews.length).toFixed(1) : '5.0',
+          totalLikes: totalLikes
+        });
+      }
+    } catch (error) {
+      console.log('Using sample data:', error);
+      // Fallback to sample data with likes
+      const sampleReviews = [
+        {
+          id: 1,
+          name: "Rafael Coronado",
+          date: "2 hours ago",
+          text: "suger setup ng chicken, malsas ang mga flavor at napaka juicy",
+          recommends: true,
+          rating: 5,
+          orderMethod: "dine-in",
+          verified: true,
+          createdAt: new Date(Date.now() - 7200000).toISOString(),
+          likes: 12,
+          userLiked: userLikes[1] || false
+        },
+        {
+          id: 2,
+          name: "Mark Angelo Medina Compendio",
+          date: "1 day ago",
+          text: "suger solid and ang bali ng owner!!",
+          recommends: true,
+          rating: 5,
+          orderMethod: "delivery",
+          verified: true,
+          createdAt: new Date(Date.now() - 86400000).toISOString(),
+          likes: 8,
+          userLiked: userLikes[2] || false
+        }
+      ];
+      setReviews(sampleReviews);
+      
+      const recommendCount = sampleReviews.filter(r => r.recommends).length;
+      const totalLikes = sampleReviews.reduce((sum, r) => sum + (r.likes || 0), 0);
+      
+      setStats({
+        recommendPercentage: Math.round((recommendCount / sampleReviews.length) * 100),
+        totalReviews: sampleReviews.length,
+        averageRating: '5.0',
+        totalLikes: totalLikes
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle heart/like button click
+  const handleHeartClick = async (reviewId, currentLikes, currentlyLiked) => {
+    try {
+      // Update local state immediately for better UX
+      const newLiked = !currentlyLiked;
+      const likeChange = newLiked ? 1 : -1;
+      
+      // Update userLikes in localStorage
+      const newUserLikes = {
+        ...userLikes,
+        [reviewId]: newLiked
+      };
+      setUserLikes(newUserLikes);
+      
+      // Update reviews list
+      setReviews(prevReviews => 
+        prevReviews.map(review => 
+          review.id === reviewId 
+            ? { 
+                ...review, 
+                likes: Math.max(0, (review.likes || 0) + likeChange),
+                userLiked: newLiked 
+              }
+            : review
+        )
+      );
+      
+      // Update total likes in stats
+      setStats(prevStats => ({
+        ...prevStats,
+        totalLikes: prevStats.totalLikes + likeChange
+      }));
+      
+      // In a real app, you would also update the backend
+      // await fetch(`${API_BASE_URL}/feedback/${reviewId}/like`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ liked: newLiked })
+      // });
+      
+    } catch (error) {
+      console.error('Error updating like:', error);
+      // Revert on error
+      setReviews(prevReviews => 
+        prevReviews.map(review => 
+          review.id === reviewId 
+            ? { 
+                ...review, 
+                likes: currentLikes,
+                userLiked: currentlyLiked 
+              }
+            : review
+        )
+      );
     }
   };
 
@@ -181,9 +246,11 @@ const Feedback = () => {
     }
   };
 
-  // Step 1: Send verification code
+  // Step 1: Submit feedback
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (isSubmitting) return;
     
     // Validate form
     const newErrors = {};
@@ -203,52 +270,44 @@ const Feedback = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/feedback`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)  // Just send formData directly
-    });
+      const response = await fetch(`${API_BASE_URL}/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
       
       const result = await response.json();
       
       if (result.success) {
-        // Store the review data temporarily
         setTempReview(formData);
-        // Switch to verification step
         setVerificationStep(true);
-        // Start resend timer (60 seconds)
         setResendTimer(60);
-        
-        // Don't reset form yet, keep data in case they need to go back
       } else {
         throw new Error(result.message || 'Failed to send verification email');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('There was an error sending the verification email. Please check your email address and try again.');
+      alert(error.message || 'There was an error. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Step 2: Verify and submit review
+  // Step 2: Verify and submit
   const handleVerifyAndSubmit = async () => {
-    if (!verificationCode.trim()) {
-      alert('Please enter the verification code');
-      return;
-    }
+    if (isSubmitting) return;
     
-    if (verificationCode.length !== 6) {
-      alert('Please enter a 6-digit verification code');
+    if (!verificationCode.trim() || verificationCode.length !== 6) {
+      alert('Please enter a valid 6-digit verification code');
       return;
     }
     
     setIsSubmitting(true);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/feedback/verify`, {
+      const response = await fetch(`${API_BASE_URL}/feedback/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -262,48 +321,7 @@ const Feedback = () => {
       const result = await response.json();
       
       if (result.success) {
-        // Use the review data returned from backend
-        const newReview = {
-          id: result.data.id,
-          name: result.data.name,
-          date: 'Just now',
-          text: result.data.feedback,
-          recommends: result.data.recommend,
-          rating: result.data.rating,
-          orderMethod: result.data.orderMethod,
-          email: result.data.email,
-          verified: result.data.verified
-        };
-        
-        // Add to beginning of reviews
-        setReviews([newReview, ...reviews]);
-        
-        // Update stats by refetching from backend (more accurate)
-        try {
-          const statsResponse = await fetch(`${API_BASE_URL}/api/feedback/stats`);
-          const statsData = await statsResponse.json();
-          if (statsData.success) {
-            setStats({
-              recommendPercentage: statsData.data.recommendPercentage,
-              totalReviews: statsData.data.totalReviews,
-              averageRating: statsData.data.averageRating
-            });
-          }
-        } catch (error) {
-          console.error('Error updating stats:', error);
-          // Fallback to local calculation
-          const newTotal = stats.totalReviews + 1;
-          const newRecommendCount = result.data.recommend ? 
-            Math.round((stats.recommendPercentage * stats.totalReviews) / 100) + 1 :
-            Math.round((stats.recommendPercentage * stats.totalReviews) / 100);
-          
-          setStats({
-            ...stats,
-            recommendPercentage: Math.round((newRecommendCount / newTotal) * 100),
-            totalReviews: newTotal
-          });
-        }
-        // Reset everything
+        // Reset form
         setFormData({
           firstName: '',
           lastName: '',
@@ -319,7 +337,10 @@ const Feedback = () => {
         setErrors({});
         setResendTimer(0);
         
-        alert('Thank you for your feedback! Your review has been verified and published.');
+        // Refresh the reviews to show the new one
+        loadReviewsFromDatabase();
+        
+        alert('Thank you! Your review has been published.');
       } else {
         throw new Error(result.message || 'Invalid verification code');
       }
@@ -333,6 +354,8 @@ const Feedback = () => {
 
   // Resend verification code
   const handleResendCode = async () => {
+    if (isSubmitting) return;
+    
     if (resendTimer > 0) {
       alert(`Please wait ${resendTimer} seconds before requesting a new code`);
       return;
@@ -341,7 +364,7 @@ const Feedback = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/feedback/resend-verification`, {
+      const response = await fetch(`${API_BASE_URL}/feedback/resend-verification`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -355,13 +378,13 @@ const Feedback = () => {
       
       if (result.success) {
         setResendTimer(60);
-        alert('New verification code sent! Please check your email.');
+        alert('New verification code sent!');
       } else {
-        throw new Error(result.message || 'Failed to resend verification code');
+        throw new Error(result.message || 'Failed to resend code');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to resend verification code. Please try again.');
+      alert('Failed to resend code. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -458,7 +481,7 @@ const Feedback = () => {
                   disabled={isSubmitting || verificationCode.length !== 6}
                   className="submit-btn verify-btn"
                 >
-                  {isSubmitting ? 'Verifying...' : 'Verify & Publish Review'}
+                  {isSubmitting ? 'Verifying...' : '✓ Verify & Publish Review'}
                 </button>
                 
                 <button 
@@ -489,6 +512,7 @@ const Feedback = () => {
                     className={errors.firstName ? 'input-error' : ''}
                     required
                     disabled={isSubmitting}
+                    placeholder="John"
                   />
                   {errors.firstName && <span className="error-message">{errors.firstName}</span>}
                 </div>
@@ -503,6 +527,7 @@ const Feedback = () => {
                     className={errors.lastName ? 'input-error' : ''}
                     required
                     disabled={isSubmitting}
+                    placeholder="Doe"
                   />
                   {errors.lastName && <span className="error-message">{errors.lastName}</span>}
                 </div>
@@ -605,7 +630,7 @@ const Feedback = () => {
                 className="submit-btn"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Sending Code...' : 'Send Verification Code'}
+                {isSubmitting ? 'Sending Code...' : '📧 Send Verification Code'}
               </button>
             </form>
           )}
@@ -614,20 +639,31 @@ const Feedback = () => {
         {/* Reviews on the RIGHT side */}
         <div className="reviews-section">
           <h2 className="feedback-section-title">Customer Reviews</h2>
+          
           <p className="feedback-subtitle">Verified customer experiences at Dibby's Wings</p>
           
-          {error && (
-            <div className="error-alert">
-              <p>⚠️ Could not load latest reviews: {error}. Showing sample data.</p>
+          {/* Stats Overview */}
+          <div className="reviews-stats">
+            <div className="stat-item">
+              <span className="stat-value">{stats.recommendPercentage}%</span>
+              <span className="stat-label">Recommend</span>
             </div>
-          )}
+            <div className="stat-item">
+              <span className="stat-value">{stats.totalReviews}</span>
+              <span className="stat-label">Total Reviews</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">{stats.averageRating}</span>
+              <span className="stat-label">Avg Rating</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">{stats.totalLikes}</span>
+              <span className="stat-label">Total Likes</span>
+            </div>
+          </div>
           
           <div className="recommendation-section">
-            <h3>Do you recommend Dibby's Restaurant?</h3>
-            <div className="recommend-options">
-              <span>Yes</span>
-              <span>No</span>
-            </div>
+            <h3>Customer Recommendations</h3>
             <div className="recommendation-percentage">
               <strong>{stats.recommendPercentage}% recommend</strong>
               <span>({stats.totalReviews} Verified Reviews)</span>
@@ -641,35 +677,48 @@ const Feedback = () => {
             </div>
           ) : (
             <div className="reviews-list">
-              {reviews.map(review => (
-                <div key={review.id} className="review-card">
-                  <div className="review-header">
-                    <div className="reviewer-info">
-                      <div className="reviewer-avatar">
-                        {review.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="reviewer-name">
-                          {review.name}
-                          {review.recommends && <span> recommends Dibby's Restaurant</span>}
-                          {review.verified && <span className="verified-badge">✓ Verified</span>}
+              {reviews.length > 0 ? (
+                reviews.map(review => (
+                  <div key={review.id} className={`review-card ${review.verified ? 'verified' : ''}`}>
+                    <div className="review-header">
+                      <div className="reviewer-info">
+                        <div className="reviewer-avatar">
+                          {review.name.charAt(0)}
                         </div>
-                        <div className="review-date">{review.date}</div>
+                        <div>
+                          <div className="reviewer-name">
+                            {review.name}
+                            {review.recommends && <span> recommends Dibby's Restaurant</span>}
+                            {review.verified && <span className="verified-badge">✓ Verified</span>}
+                          </div>
+                          <div className="review-date">{review.date}</div>
+                        </div>
+                      </div>
+                      <div className="review-rating">
+                        {renderStars(review.rating)}
+                        <span className="rating-value">{review.rating}.0</span>
                       </div>
                     </div>
-                    <div className="review-rating">
-                      {renderStars(review.rating)}
-                      <span className="rating-value">{review.rating}.0</span>
+                    <p className="review-text">{review.text}</p>
+                    <div className="review-actions">
+                      <div className="restaurant-tag">
+                        Dibby's Restaurant • {review.orderMethod || "Dine-in"}
+                      </div>
+                      <button 
+                        className={`heart-btn ${review.userLiked ? 'liked' : ''}`}
+                        onClick={() => handleHeartClick(review.id, review.likes, review.userLiked)}
+                      >
+                        <span className="heart-icon">❤</span>
+                        <span className="heart-count">{review.likes || 0}</span>
+                      </button>
                     </div>
                   </div>
-                  <p className="review-text">{review.text}</p>
-                  <div className="review-actions">
-                    <div className="restaurant-tag">
-                      Dibby's Restaurant • {review.orderMethod || "Dine-in"}
-                    </div>
-                  </div>
+                ))
+              ) : (
+                <div className="no-reviews">
+                  <p>No reviews yet. Be the first to share your experience!</p>
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>
@@ -678,4 +727,4 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+export default Feedback2;
