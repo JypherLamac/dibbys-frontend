@@ -1,51 +1,11 @@
-const API_BASE_URL = 'http://localhost:5001/api';
+// api.js - COMPLETE FIXED VERSION
+const API_BASE_URL = process.env.REACT_APP_API_URL 
+  ? `${process.env.REACT_APP_API_URL}/api`
+  : 'http://localhost:5001/api';
 
+console.log('API Base URL:', API_BASE_URL); // For debugging
 
-// Add these to your api.js
-
-// Payment API
-export const paymentAPI = {
-  // Create payment intent
-  createPaymentIntent: async (orderNumber, amount) => {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/payments/create-payment-intent`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ orderNumber, amount, currency: 'php' })
-    });
-    return response.json();
-  },
-
-  // Get payment status
-  getPaymentStatus: async (orderNumber) => {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/payments/status/${orderNumber}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response.json();
-  }
-};
-
-// Update order creation to handle payments
-export const createOrderWithPayment = async (orderData, selectedItems, paymentMethod) => {
-  const token = localStorage.getItem('token');
-  const response = await fetch(`${API_URL}/orders`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify({ ...orderData, selected_items: selectedItems, payment_method: paymentMethod })
-  });
-  return response.json();
-};
-
-// Generic fetch function
+// Generic fetch function - STANDARDIZED
 const fetchAPI = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
   
@@ -55,6 +15,7 @@ const fetchAPI = async (endpoint, options = {}) => {
   };
 
   if (token) {
+    // Use x-auth-token consistently
     headers['x-auth-token'] = token;
   }
 
@@ -62,6 +23,7 @@ const fetchAPI = async (endpoint, options = {}) => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers,
+      credentials: 'include'
     });
 
     // Handle empty responses
@@ -144,7 +106,7 @@ export const cartAPI = {
     }),
 };
 
-// Orders API - UPDATED FOR CHECKLIST FEATURE
+// Orders API
 export const ordersAPI = {
   createOrder: (orderData) =>
     fetchAPI('/orders', {
@@ -152,7 +114,6 @@ export const ordersAPI = {
       body: JSON.stringify(orderData),
     }),
   
-  // Updated to accept selected_items parameter
   createOrderWithSelectedItems: (orderData, selectedItems) =>
     fetchAPI('/orders', {
       method: 'POST',
@@ -167,7 +128,6 @@ export const ordersAPI = {
   getOrderDetails: (orderNumber) =>
     fetchAPI(`/orders/${orderNumber}`),
   
-  // Admin functions (if needed later)
   getAllOrders: () => fetchAPI('/orders/all'),
   
   updateOrderStatus: (orderNumber, status) =>
@@ -177,14 +137,34 @@ export const ordersAPI = {
     }),
 };
 
-// Helper function for creating order with selected items
+// Payment API - UPDATED to use fetchAPI for consistency
+export const paymentAPI = {
+  createPaymentIntent: async (orderNumber, amount) => 
+    fetchAPI('/payments/create-payment-intent', {
+      method: 'POST',
+      body: JSON.stringify({ orderNumber, amount, currency: 'php' }),
+    }),
+
+  getPaymentStatus: async (orderNumber) => 
+    fetchAPI(`/payments/status/${orderNumber}`),
+};
+
+// Helper functions - UPDATED to use fetchAPI
 export const createOrderWithSelection = async (orderData, selectedItemIds) => {
-  // Use the new function if selected items are provided
   if (selectedItemIds && selectedItemIds.length > 0) {
     return await ordersAPI.createOrderWithSelectedItems(orderData, selectedItemIds);
   }
-  // Use original function if no selected items
   return await ordersAPI.createOrder(orderData);
 };
+
+export const createOrderWithPayment = async (orderData, selectedItems, paymentMethod) => 
+  fetchAPI('/orders', {
+    method: 'POST',
+    body: JSON.stringify({ 
+      ...orderData, 
+      selected_items: selectedItems, 
+      payment_method: paymentMethod 
+    }),
+  });
 
 export default fetchAPI;

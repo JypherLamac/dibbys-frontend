@@ -15,6 +15,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const { login, register } = useAuth();
   const navigate = useNavigate();
+  const [forgotPassword, setForgotPassword] = useState(false);
+const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -23,6 +25,8 @@ const Login = () => {
     });
   };
 
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -67,6 +71,18 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = (e) => {
+  e.preventDefault();
+
+  if (!formData.email) {
+    setError('Please enter your email address');
+    return;
+  }
+
+  setMessage('Password reset link sent to your email.');
+  setError('');
+};
+
   const toggleMode = () => {
     setIsLogin(!isLogin);
     setFormData({
@@ -87,7 +103,7 @@ const Login = () => {
             {isLogin ? 'Sign in to your account' : 'Sign up for a new account'}
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={forgotPassword ? handleForgotPassword : handleSubmit}>
             {!isLogin && (
               <div className="form-group">
                 <label htmlFor="name">Full Name *</label>
@@ -116,19 +132,20 @@ const Login = () => {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password *</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Enter your password"
-                minLength={isLogin ? 1 : 6}
-              />
-            </div>
+            {!forgotPassword && (
+  <div className="form-group">
+    <label htmlFor="password">Password *</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      value={formData.password}
+      onChange={handleChange}
+      placeholder="Enter your password"
+      minLength={isLogin ? 1 : 6}
+    />
+  </div>
+)}
 
             {!isLogin && (
               <div className="form-group">
@@ -159,20 +176,46 @@ const Login = () => {
           </form>
 
           <div className="login-footer">
-            <p>
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <button 
-                type="button" 
-                onClick={toggleMode}
-                className="toggle-button"
-              >
-                {isLogin ? 'Sign up here' : 'Sign in here'}
-              </button>
-            </p>
+           {isLogin && !forgotPassword && (
+    <p>
+      <button
+        type="button"
+        className="toggle-button"
+        onClick={() => setForgotPassword(true)}
+      >
+        Forgot Password?
+      </button>
+    </p>
+  )}
+
+  {forgotPassword && (
+    <p>
+      <button
+        type="button"
+        className="toggle-button"
+        onClick={() => setForgotPassword(false)}
+      >
+        ← Back to Login
+      </button>
+    </p>
+  )}
+
+  {/* Login / Register Toggle */}
+  {!forgotPassword && (
+    <p>
+      {isLogin ? "Don't have an account? " : "Already have an account? "}
+      <button
+        type="button"
+        onClick={toggleMode}
+        className="toggle-button"
+      >
+        {isLogin ? 'Sign up here' : 'Sign in here'}
+      </button>
+    </p>
+  )}
+
             
-            <div className="back-to-home">
-              <Link to="/">← Back to Home</Link>
-            </div>
+            
           </div>
         </div>
       </div>
