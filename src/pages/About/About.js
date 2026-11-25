@@ -4,18 +4,14 @@ import './About.css';
 const About = () => {
   return (
     <div className="about-page">
-      {/* HERO SECTION - Matches Feedback Hero */}
       <section className="about-hero-section">
         <div className="about-hero-container">
           <h1>About Dibby's Restaurant</h1>
-          <p>
-            Serving Taguig City with passion, quality, and exceptional flavors since day one
-          </p>
+          <p>Serving Taguig City with passion, quality, and exceptional flavors since day one</p>
         </div>
       </section>
 
       <div className="about-container">
-        {/* OUR STORY SECTION */}
         <section className="our-story-section">
           <div className="our-story-container">
             <div className="our-story-text">
@@ -34,7 +30,6 @@ const About = () => {
                 and a welcoming dining experience.
               </p>
             </div>
-
             <div
               className="our-story-img"
               style={{ backgroundImage: "url('images/picturesabout/db bg.jpg')" }}
@@ -42,7 +37,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* MISSION & VISION SECTION */}
         <section className="mission-vision-section">
           <div className="mission-card">
             <h3>Our Mission</h3>
@@ -51,7 +45,6 @@ const About = () => {
               outstanding service, and a warm, welcoming atmosphere that feels like home.
             </p>
           </div>
-
           <div className="vision-card">
             <h3>Our Vision</h3>
             <p>
@@ -61,13 +54,11 @@ const About = () => {
           </div>
         </section>
 
-        {/* TEAM SECTION */}
         <section className="team-section">
           <div className="team-container">
             <div className="team-title">
               <h2>Meet Our Team</h2>
             </div>
-
             <div className="team-grid">
               <div className="team-card">
                 <img src="/images/picturesabout/jonas.jpg" alt="Jonas Cahusay" />
@@ -75,16 +66,12 @@ const About = () => {
                 <span>Head Chef</span>
                 <p>Delivers passion and creativity in every meal.</p>
               </div>
-
               <div className="team-card">
                 <img src="/images/picturesabout/jer.jpg" alt="Jeramie Bagsik" />
                 <h3>Jeramie Bagsik</h3>
                 <span>Operations Manager</span>
-                <p>
-                  Committed to giving every guest an exceptional dining experience at Dibby's Wings.
-                </p>
+                <p>Committed to giving every guest an exceptional dining experience.</p>
               </div>
-
               <div className="team-card">
                 <img src="/images/picturesabout/dave.jpg" alt="Dave Patrick Bagsik" />
                 <h3>Dave Patrick Bagsik</h3>
@@ -95,16 +82,13 @@ const About = () => {
           </div>
         </section>
 
-        {/* MECHANICS SECTION */}
         <section className="mechanics-section">
           <h2>UNLI OFFERS MECHANICS</h2>
-
           <div className="rules-icons">
             <p>☒ TAKEOUT</p>
             <p>☒ LEFTOVER</p>
             <p>☒ SHARING</p>
           </div>
-
           <ul className="rules-list">
             <li>LEFTOVER FEE: 30 PESOS PER PIECE (WINGS), 20 PESOS (RICE), 10 PESOS (DRINKS)</li>
             <li>1 FLAVOR PER SERVING</li>
@@ -114,26 +98,21 @@ const About = () => {
           </ul>
         </section>
 
-        {/* CELEBRATION SECTION */}
         <section className="celebration-section">
           <h2 className="section-title">Celebrate With Dibby's Wings!</h2>
-
           <div className="celebration-container">
             <div className="celebration-card">
               <h3 className="celebration-heading">Treat Dad to his favorite wings!</h3>
               <img src="/images/picturesabout/fathers.png" alt="Father's Day Promo" />
             </div>
-
             <div className="celebration-card">
               <h3 className="celebration-heading">Treat Mom to her favorite wings!</h3>
               <img src="/images/picturesabout/mothers.png" alt="Mother's Day Promo" />
             </div>
-
             <div className="celebration-card">
               <h3 className="celebration-heading">Share a meal with your loved one!</h3>
               <img src="/images/picturesabout/valentines.png" alt="Valentine's Promo" />
             </div>
-
             <div className="celebration-card">
               <h3 className="celebration-heading">Celebrate your Birthday with Dibby's Wings!</h3>
               <img src="/images/picturesabout/bday.png" alt="Birthday Promo" />

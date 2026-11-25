@@ -28,17 +28,15 @@ const Feedback2 = () => {
   const [tempReview, setTempReview] = useState(null);
   const [resendTimer, setResendTimer] = useState(0);
   const [userLikes, setUserLikes] = useState(() => {
-    // Load liked reviews from localStorage
     const saved = localStorage.getItem('dibbyFeedbackLikes');
     return saved ? JSON.parse(saved) : {};
   });
 
-  // Save userLikes to localStorage whenever it changes
+ 
   useEffect(() => {
     localStorage.setItem('dibbyFeedbackLikes', JSON.stringify(userLikes));
   }, [userLikes]);
 
-  // Timer for resend code
   useEffect(() => {
     let interval;
     if (resendTimer > 0) {
@@ -49,12 +47,11 @@ const Feedback2 = () => {
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  // Load reviews from database when component mounts
   useEffect(() => {
     loadReviewsFromDatabase();
   }, []);
 
-  // Format time ago
+  
   const formatTimeAgo = (dateString) => {
     try {
       if (!dateString) return 'Just now';
@@ -80,7 +77,7 @@ const Feedback2 = () => {
   const loadReviewsFromDatabase = async () => {
     setLoading(true);
     try {
-      // Fetch verified reviews from your backend
+    
       const response = await fetch(`${API_BASE_URL}/feedback`);
       const data = await response.json();
       
@@ -100,15 +97,14 @@ const Feedback2 = () => {
           userLiked: userLikes[item.id] || false
         }));
         
-        // Sort by likes (most liked first)
+       
         formattedReviews.sort((a, b) => {
           if (b.likes !== a.likes) return b.likes - a.likes;
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
         
         setReviews(formattedReviews);
-        
-        // Update stats
+  
         const recommendCount = formattedReviews.filter(r => r.recommends).length;
         const totalRating = formattedReviews.reduce((sum, r) => sum + (parseInt(r.rating) || 0), 0);
         const totalLikes = formattedReviews.reduce((sum, r) => sum + (r.likes || 0), 0);
@@ -124,7 +120,7 @@ const Feedback2 = () => {
       }
     } catch (error) {
       console.log('Using sample data:', error);
-      // Fallback to sample data with likes
+  
       const sampleReviews = [
         {
           id: 1,
@@ -201,14 +197,7 @@ const Feedback2 = () => {
         ...prevStats,
         totalLikes: prevStats.totalLikes + likeChange
       }));
-      
-      // In a real app, you would also update the backend
-      // await fetch(`${API_BASE_URL}/feedback/${reviewId}/like`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ liked: newLiked })
-      // });
-      
+
     } catch (error) {
       console.error('Error updating like:', error);
       // Revert on error
