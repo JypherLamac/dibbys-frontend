@@ -7,4 +7,4 @@ export const orderService = {
   
   getOrder: (orderId) => 
     api.get('/orders/get_order.php', { params: { id: orderId } })
-};
+};.

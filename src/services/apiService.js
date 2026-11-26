@@ -213,4 +213,4 @@ export const cartService = {
     const cart = cartService.getCart();
     return cart.reduce((total, item) => total + (item.priceValue * (item.quantity || 1)), 0);
   }
-};
+};.

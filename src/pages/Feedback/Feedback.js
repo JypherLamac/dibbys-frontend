@@ -716,4 +716,4 @@ const Feedback2 = () => {
   );
 };
 
-export default Feedback2;
+export default Feedback2;.

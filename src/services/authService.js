@@ -42,4 +42,4 @@ export const authService = {
     const user = this.getCurrentUser();
     return user && user.userType === 'admin';
   }
-};
+};.

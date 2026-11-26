@@ -81,4 +81,4 @@ export const validateContactForm = (formData) => {
     isValid: Object.keys(errors).length === 0,
     errors
   };
-};
+};.

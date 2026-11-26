@@ -11,4 +11,4 @@ export const feedbackService = {
   // Admin function
   deleteFeedback: (feedbackId) => 
     api.post('/admin/delete_feedback.php', { id: feedbackId })
-};
+};.

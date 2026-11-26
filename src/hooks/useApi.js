@@ -36,4 +36,4 @@ export const useApi = (apiCall, dependencies = []) => {
   };
 
   return { data, loading, error, refetch };
-};
+};.

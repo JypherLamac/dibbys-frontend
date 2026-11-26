@@ -100,4 +100,4 @@ export const imageMap = {
 // Helper function to get image by name
 export const getImageByName = (name) => {
   return imageMap[name] || '';
-};
+};.

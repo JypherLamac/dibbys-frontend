@@ -16,4 +16,4 @@ export const menuService = {
   
   deleteMenuItem: (itemId) => 
     api.post('/admin/delete_menu_item.php', { id: itemId })
-};
+};.

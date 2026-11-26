@@ -64,4 +64,4 @@ function MenuCategory({ categories, activeCategory, onCategoryClick }) {
   );
 }
 
-export default MenuCategory;
+export default MenuCategory;.

@@ -10,4 +10,4 @@ export const cartService = {
   
   clearCart: () => 
     api.post('/cart/clear_cart.php')
-};
+};.

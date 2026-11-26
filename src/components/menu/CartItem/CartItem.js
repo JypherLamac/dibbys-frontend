@@ -114,4 +114,4 @@ function CartItem({ item, onUpdateQuantity, onRemove, isSelected, onToggleSelect
   );
 }
 
-export default CartItem;
+export default CartItem;.

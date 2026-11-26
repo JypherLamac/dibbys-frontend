@@ -86,4 +86,4 @@ function MenuItem({ item, onAddToCart, isAuthenticated }) {
   );
 }
 
-export default MenuItem;
+export default MenuItem;.

@@ -410,4 +410,4 @@ export const categories = [
   { id: 'drinks', name: 'Drinks & Frappes' },
   { id: 'bilao', name: 'Special Bilao Wings' },
   { id: 'special-pancit', name: 'Special Pancit' }
-];
+];.

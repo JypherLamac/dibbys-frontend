@@ -167,4 +167,4 @@ export const createOrderWithPayment = async (orderData, selectedItems, paymentMe
     }),
   });
 
-export default fetchAPI;
+export default fetchAPI;.
